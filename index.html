@@ -145,7 +145,6 @@ const CONFIG={
 };
 /* Занятые интервалы. В рабочем режиме приходят с сервера (без персональных данных). Демо-значения: */
 let BUSY=[];
-const DB=!!(C.booking.supabaseUrl&&C.booking.anonKey);
 async function rpc(name,args){const r=await fetch(C.booking.supabaseUrl.replace(/\/$/,"")+"/rest/v1/rpc/"+name,{method:"POST",headers:Object.assign({"Content-Type":"application/json",apikey:C.booking.anonKey},C.booking.anonKey.startsWith("eyJ")?{Authorization:"Bearer "+C.booking.anonKey}:{}),body:JSON.stringify(args)});if(!r.ok)throw new Error("http "+r.status);return r.json()}
 /* ================================================================================ */
 const C=CONFIG,$=s=>document.querySelector(s),DN=["Воскресенье","Понедельник","Вторник","Среда","Четверг","Пятница","Суббота"];
@@ -154,6 +153,7 @@ const iso=d=>d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+Stri
 const money=s=>s.price.toLocaleString("ru-RU")+" "+(s.cur||C.currency), grad=c=>`linear-gradient(150deg,${c[0]},${c[1]})`;
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const P=C.contacts;
+const DB=!!(C.booking.supabaseUrl&&C.booking.anonKey);
 /* --- static render --- */
 const links=[["home","Главная"],["about","Обо мне"],["services","Услуги"],["gallery","Галерея"],["schedule","График работы"],["booking","Запись"],["contacts","Контакты"]];
 $("#menu").innerHTML=links.map(l=>`<li><a href="#${l[0]}">${l[1]}</a></li>`).join("");
