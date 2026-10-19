@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Arina Nails — красота в каждой детали</title>
-<meta name="description" content="Arina Nails: классический маникюр, френч, гель-лак и дизайн ногтей. Онлайн-запись.">
+<meta name="description" content="Arina Nails: классический маникюр, гель-лак и педикюр. Онлайн-запись.">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@400;500;600&display=swap">
 <style>
 :root{--dk:#174D3A;--gr:#287A55;--lt:#E8F3EB;--bg:#FAF9F5;--card:#fff;--tx:#24332B;--mut:#5b6b62;--bd:#dfe8e1;
@@ -25,15 +25,20 @@ section{padding:64px 0}.alt{background:var(--lt)}
 .btn:disabled{opacity:.5;cursor:not-allowed}
 :focus-visible{outline:3px solid var(--gr);outline-offset:2px}
 header{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--bd);padding-top:env(safe-area-inset-top,0px)}
-.nav{display:flex;align-items:center;justify-content:space-between;height:68px;gap:16px}
-.logo{font:600 1.6rem "Cormorant Garamond",serif;color:var(--dk);text-decoration:none;display:flex;gap:8px;align-items:center}
+.nav{display:flex;align-items:center;justify-content:space-between;height:68px;gap:10px}
+.logo{font:600 1.4rem "Cormorant Garamond",serif;color:var(--dk);text-decoration:none;display:flex;gap:8px;align-items:center;white-space:nowrap}
+@media(min-width:420px){.logo{font-size:1.6rem}}
+@media(max-width:359px){.logo{font-size:1.15rem}.lang button{min-width:32px;padding:0 4px}.wrap{padding:0 14px}.burger{width:38px}}
 @media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .logo{color:#9ad3b3}}
 nav ul{display:none;list-style:none;margin:0;padding:0;gap:20px}nav a{text-decoration:none;font-size:14px}nav a:hover{color:var(--gr)}
 .cta{display:none;align-items:center;gap:14px;font-size:13px;line-height:1.3;text-align:right}
-.burger{background:none;border:0;width:48px;height:48px;font-size:26px;color:var(--tx);cursor:pointer}
+.lang{display:flex;gap:2px;margin-left:auto}
+.lang button{min-width:36px;min-height:36px;padding:0 6px;border:1.5px solid var(--bd);border-radius:999px;background:transparent;color:var(--tx);font:600 12px Inter,sans-serif;cursor:pointer}
+.lang button[aria-pressed=true]{background:var(--gr);border-color:var(--gr);color:#fff}
+.burger{background:none;border:0;width:44px;height:48px;font-size:26px;color:var(--tx);cursor:pointer;padding:0}
 nav.open ul{display:flex;flex-direction:column;position:absolute;left:0;right:0;top:68px;background:var(--bg);padding:16px 20px;border-bottom:1px solid var(--bd);gap:4px}
 nav.open li a{display:block;padding:12px 0;font-size:17px}
-@media(min-width:1000px){nav ul{display:flex}.burger{display:none}.cta{display:flex}}
+@media(min-width:1000px){nav ul{display:flex}.burger{display:none}.cta{display:flex}.lang{margin-left:0}}
 .hero{display:grid;gap:32px;align-items:center;padding:40px 0 64px}
 @media(min-width:900px){.hero{grid-template-columns:1.05fr 1fr}}
 .hero p{color:var(--mut);font-size:1.05rem}.row{display:flex;flex-wrap:wrap;gap:12px;margin:24px 0}
@@ -79,158 +84,259 @@ footer{background:var(--dk);color:#e8f3eb;padding:48px 0 32px}footer a{text-deco
 </style>
 </head>
 <body>
-<header><div class="wrap"><nav id="nav" class="nav" aria-label="Основное меню">
+<header><div class="wrap"><nav id="nav" class="nav" data-i18n-aria="navAria">
 <a class="logo" href="#home" id="logo"></a>
 <ul id="menu"></ul>
-<div class="cta"><div><a id="hPhone" href="#"></a><br><span id="hHours"></span></div><a class="btn" href="#booking">Записаться онлайн</a></div>
-<button class="burger" id="burger" aria-label="Меню" aria-expanded="false">☰</button>
+<div class="cta"><div><a id="hPhone" href="#"></a><br><span id="hHours"></span></div><a class="btn" href="#booking" data-i18n="cta"></a></div>
+<div class="lang" id="lang" role="group" data-i18n-aria="langAria"></div>
+<button class="burger" id="burger" data-i18n-aria="menuAria" aria-expanded="false">☰</button>
 </nav></div></header>
 
 <main>
 <section id="home" style="padding-top:0"><div class="wrap hero">
-<div class="rv"><h1>Красота в каждой детали</h1>
-<p>Профессиональный уход, аккуратная форма, стойкое покрытие и спокойная атмосфера, в которой приятно отдохнуть.</p>
-<div class="row"><a class="btn" href="#booking">Записаться онлайн</a><a class="btn ghost" href="#services">Посмотреть услуги</a></div>
-<ul class="perks"><li><span class="ic">✓</span>Стерильные инструменты</li><li><span class="ic">✓</span>Качественные материалы</li><li><span class="ic">✓</span>Комфортная атмосфера</li></ul></div>
-<div class="ph rv" role="img" aria-label="Заглушка: ухоженные руки на фоне растений"><svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice"><g fill="#287A55" opacity=".75"><path d="M0 500C20 380 60 300 120 260 90 340 80 420 90 500Z"/><path d="M400 500C380 400 340 330 290 300 320 380 330 440 320 500Z" opacity=".6"/><path d="M40 500C70 420 130 380 170 370 140 420 130 460 140 500Z" fill="#174D3A"/></g><g fill="#f3d9cc" stroke="#e5c4b4"><rect x="150" y="190" width="26" height="110" rx="13"/><rect x="180" y="165" width="26" height="135" rx="13"/><rect x="210" y="175" width="26" height="125" rx="13"/><rect x="240" y="205" width="24" height="95" rx="12"/><path d="M150 290h114v70q-57 40-114 0z"/></g><g fill="#ecd6c8"><rect x="154" y="192" width="18" height="24" rx="8"/><rect x="184" y="167" width="18" height="24" rx="8"/><rect x="214" y="177" width="18" height="24" rx="8"/><rect x="243" y="207" width="17" height="22" rx="8"/></g></svg><span class="tag">Заглушка — замените фото</span></div>
+<div class="rv"><h1 data-i18n="heroH"></h1>
+<p data-i18n="heroP"></p>
+<div class="row"><a class="btn" href="#booking" data-i18n="cta"></a><a class="btn ghost" href="#services" data-i18n="heroSee"></a></div>
+<ul class="perks" id="perks"></ul></div>
+<div class="ph rv" role="img" data-i18n-aria="heroAlt"><svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice"><g fill="#287A55" opacity=".75"><path d="M0 500C20 380 60 300 120 260 90 340 80 420 90 500Z"/><path d="M400 500C380 400 340 330 290 300 320 380 330 440 320 500Z" opacity=".6"/><path d="M40 500C70 420 130 380 170 370 140 420 130 460 140 500Z" fill="#174D3A"/></g><g fill="#f3d9cc" stroke="#e5c4b4"><rect x="150" y="190" width="26" height="110" rx="13"/><rect x="180" y="165" width="26" height="135" rx="13"/><rect x="210" y="175" width="26" height="125" rx="13"/><rect x="240" y="205" width="24" height="95" rx="12"/><path d="M150 290h114v70q-57 40-114 0z"/></g><g fill="#ecd6c8"><rect x="154" y="192" width="18" height="24" rx="8"/><rect x="184" y="167" width="18" height="24" rx="8"/><rect x="214" y="177" width="18" height="24" rx="8"/><rect x="243" y="207" width="17" height="22" rx="8"/></g></svg><span class="tag" data-i18n="heroTag"></span></div>
 </div></section>
 
 <section id="about" class="alt"><div class="wrap about">
-<div class="ph rv" style="aspect-ratio:1" role="img" aria-label="Заглушка: фото мастера"><svg viewBox="0 0 100 100"><circle cx="50" cy="38" r="16" fill="#cfe3d5"/><path d="M18 95c4-28 20-38 32-38s28 10 32 38z" fill="#9fc7ae"/></svg><span class="tag">Фото мастера</span></div>
-<div class="rv"><span class="demo">Заглушка</span><h2>Обо мне</h2>
+<div class="ph rv" style="aspect-ratio:1" role="img" data-i18n-aria="photoAlt"><svg viewBox="0 0 100 100"><circle cx="50" cy="38" r="16" fill="#cfe3d5"/><path d="M18 95c4-28 20-38 32-38s28 10 32 38z" fill="#9fc7ae"/></svg><span class="tag" data-i18n="photoTag"></span></div>
+<div class="rv"><span class="demo" data-i18n="demo"></span><h2 data-i18n="aboutH"></h2>
 <p id="aBio" class="sub" style="max-width:none"></p><dl id="aDl"></dl>
 <ul class="perks" id="aPerks"></ul></div></div></section>
 
-<section id="services"><div class="wrap"><h2>Услуги и цены</h2><p class="sub">Выберите услугу и запишитесь онлайн.</p><div class="grid c4" id="svc"></div></div></section>
+<section id="services"><div class="wrap"><h2 data-i18n="servicesH"></h2><p class="sub" data-i18n="servicesSub"></p><div class="grid c4" id="svc"></div></div></section>
 
-<section id="gallery" class="alt"><div class="wrap"><h2>Галерея</h2><p class="sub">Демонстрационные заглушки — это не работы мастера. Замените на свои фото.</p><div class="gal" id="gal"></div></div></section>
+<section id="gallery" class="alt"><div class="wrap"><h2 data-i18n="galleryH"></h2><p class="sub" data-i18n="gallerySub"></p><div class="gal" id="gal"></div></div></section>
 
-<section id="schedule"><div class="wrap"><h2>График работы</h2><p class="sub">Это же расписание использует онлайн-запись.</p><div style="max-width:560px"><table id="sch"></table><p class="demo" id="exc" style="margin-top:12px"></p></div></div></section>
+<section id="schedule"><div class="wrap"><h2 data-i18n="schedH"></h2><p class="sub" data-i18n="schedSub"></p><div style="max-width:560px"><table id="sch"></table></div></div></section>
 
-<section id="booking" class="alt"><div class="wrap"><h2 style="text-align:center">Онлайн-запись</h2><p class="sub" style="margin:8px auto 28px;text-align:center">Выберите услугу, дату и свободное время.</p>
+<section id="booking" class="alt"><div class="wrap"><h2 style="text-align:center" data-i18n="bookH"></h2><p class="sub" style="margin:8px auto 28px;text-align:center" data-i18n="bookSub"></p>
 <div class="box" id="bk" aria-live="polite"></div></div></section>
 
-<section id="contacts"><div class="wrap"><h2>Контакты</h2><div class="grid c2" style="margin-top:24px"><ul class="perks" id="cl"></ul>
-<div class="ph" style="aspect-ratio:16/10" role="img" aria-label="Заглушка карты"><svg viewBox="0 0 160 100"><path d="M0 60h160M50 0v100M110 0v100M0 25l160 30" stroke="#b9d3c2" stroke-width="3" fill="none"/><circle cx="80" cy="46" r="7" fill="#287A55"/></svg><a class="tag" id="map" href="#" target="_blank" rel="noopener">Открыть на карте</a></div></div></div></section>
+<section id="contacts"><div class="wrap"><h2 data-i18n="contactsH"></h2><div class="grid c2" style="margin-top:24px"><ul class="perks" id="cl"></ul>
+<div class="ph" style="aspect-ratio:16/10" role="img" data-i18n-aria="mapAria"><svg viewBox="0 0 160 100"><path d="M0 60h160M50 0v100M110 0v100M0 25l160 30" stroke="#b9d3c2" stroke-width="3" fill="none"/><circle cx="80" cy="46" r="7" fill="#287A55"/></svg><a class="tag" id="map" href="#" target="_blank" rel="noopener" data-i18n="mapOpen"></a></div></div></div></section>
 </main>
 
-<footer><div class="wrap fg"><div><div class="logo" style="color:#fff" id="flogo"></div><p style="opacity:.8;font-size:14px">Красивый маникюр для уверенных в себе женщин.</p></div><div id="fc"></div><div id="fs"></div></div>
-<div class="wrap" style="margin-top:24px;font-size:13px;opacity:.75"><a href="#" id="priv">Политика конфиденциальности</a> · © <span id="yr"></span> Arina Nails</div></footer>
+<footer><div class="wrap fg"><div><div class="logo" style="color:#fff" id="flogo"></div><p style="opacity:.8;font-size:14px" data-i18n="tagline"></p></div><div id="fc"></div><div id="fs"></div></div>
+<div class="wrap" style="margin-top:24px;font-size:13px;opacity:.75"><a href="#" id="priv" data-i18n="privacy"></a> · © <span id="yr"></span> Arina Nails</div></footer>
 
-<div id="lb" role="dialog" aria-modal="true" aria-label="Просмотр фото"><button id="lbx" aria-label="Закрыть">✕</button><div id="lbi"></div></div>
+<div id="lb" role="dialog" aria-modal="true" data-i18n-aria="lbAria"><button id="lbx" data-i18n-aria="close">✕</button><div id="lbi"></div></div>
 
 <script>
-/* ===== CONFIG: редактируйте здесь. Все значения — демонстрационные заглушки ===== */
+/* ===== CONFIG: редактируйте здесь. Тексты с ru/bg/uk — на трёх языках ===== */
 const CONFIG={
  brand:"Arina Nails",
- master:{name:"Наталия Янкова",experience:"[X лет] — укажите опыт",qualification:"Мастер маникюра и педикюра",approach:"[Ваш подход к работе]",education:"[Образование и сертификаты]",
-  bio:"Здесь будет короткий рассказ о мастере. Замените этот текст своим описанием.",
-  perks:["Индивидуальный подход","Аккуратная работа","Безопасность и стерильность"]},
- contacts:{phone:"+359 877 504 805",viber:"viber://chat?number=%2B359877504805",whatsapp:"https://wa.me/380990536124",instagram:"https://instagram.com/username",address:"Адрес студии (заглушка)",map:"https://maps.google.com/?q=",hours:"Вт–Сб 9:00–19:00"},
+ master:{
+  name:{ru:"Наталия Янкова",bg:"Наталия Янкова",uk:"Наталія Янкова"},
+  experience:{ru:"[X лет] — укажите опыт",bg:"[X години] — посочете опит",uk:"[X років] — вкажіть досвід"},
+  qualification:{ru:"Мастер маникюра и педикюра",bg:"Майстор по маникюр и педикюр",uk:"Майстер манікюру та педикюру"},
+  approach:{ru:"[Ваш подход к работе]",bg:"[Вашият подход към работата]",uk:"[Ваш підхід до роботи]"},
+  education:{ru:"[Образование и сертификаты]",bg:"[Образование и сертификати]",uk:"[Освіта та сертифікати]"},
+  bio:{ru:"Здесь будет короткий рассказ о мастере. Замените этот текст своим описанием.",bg:"Тук ще има кратък разказ за майстора. Заменете този текст със свое описание.",uk:"Тут буде коротка розповідь про майстра. Замініть цей текст власним описом."},
+  perks:[{ru:"Индивидуальный подход",bg:"Индивидуален подход",uk:"Індивідуальний підхід"},{ru:"Аккуратная работа",bg:"Прецизна работа",uk:"Акуратна робота"},{ru:"Безопасность и стерильность",bg:"Безопасност и стерилност",uk:"Безпека та стерильність"}]},
+ contacts:{phone:"+359 877 504 805",viber:"viber://chat?number=%2B359877504805",whatsapp:"https://wa.me/380990536124",instagram:"https://instagram.com/username",
+  address:{ru:"Адрес студии (заглушка)",bg:"Адрес на студиото (заместител)",uk:"Адреса студії (заглушка)"},map:"https://maps.google.com/?q=",hours:"Вт–Сб 9:00–19:00"},
  services:[
-  {id:"gel",name:"Покрытие гель-лак",desc:"Стойкое покрытие с выравниванием и укреплением.",min:120,price:35,cur:"€",real:true,c:["#cfe3d5","#287A55"]},
-  {id:"classic",name:"Классический маникюр",desc:"Обработка кутикулы, форма, уход за кожей рук.",min:60,price:25,cur:"€",real:true,c:["#efe0d2","#f7efe6"]},
-  
-  {id:"pedicure-classic",name:"Классический педикюр",desc:"Аккуратная обработка стоп и кутикулы, придание формы ногтям.",min:90,price:30,cur:"€",real:true,c:["#e3ece6","#8fb5a0"]},
-  ],
- currency:"₽",
- /* Фото: ложите свои файлы в папку images/ репозитория и добавляйте путь: в галерее — третий элемент [имя,[цвета],"images/1.jpg"], у услуги — поле img:"images/gel.jpg" */
- gallery:[["Нюдовый",["#ecd5c6","#f6e9df"]],["Френч",["#f7f2ea","#e5d8c9"]],["Молочное",["#fbf8f3","#efe7dd"]],["Зелёный",["#9fc7ae","#174D3A"]],["Дизайн",["#e9c9d4","#b97b91"]],["Яркий",["#f2a07b","#d6455d"]]],
+  {id:"gel",name:{ru:"Покрытие гель-лак",bg:"Гел лак",uk:"Покриття гель-лак"},desc:{ru:"Стойкое покрытие с выравниванием и укреплением.",bg:"Дълготрайно покритие с изравняване и заздравяване.",uk:"Стійке покриття з вирівнюванням і зміцненням."},min:120,price:35,cur:"€",real:true,c:["#cfe3d5","#287A55"]},
+  {id:"classic",name:{ru:"Классический маникюр",bg:"Класически маникюр",uk:"Класичний манікюр"},desc:{ru:"Обработка кутикулы, форма, уход за кожей рук.",bg:"Обработка на кожички, форма, грижа за кожата на ръцете.",uk:"Обробка кутикули, форма, догляд за шкірою рук."},min:60,price:25,cur:"€",real:true,c:["#efe0d2","#f7efe6"]},
+  {id:"pedicure-classic",name:{ru:"Классический педикюр",bg:"Класически педикюр",uk:"Класичний педикюр"},desc:{ru:"Аккуратная обработка стоп и кутикулы, придание формы ногтям.",bg:"Прецизна обработка на стъпалата и кожичките, оформяне на ноктите.",uk:"Акуратна обробка стоп і кутикули, надання форми нігтям."},min:90,price:30,cur:"€",real:true,c:["#e3ece6","#8fb5a0"]}
+ ],
+ currency:"€",
+ /* Фото: положите файлы в папку images/ репозитория. В галерее — третий элемент [имя,[цвета],"images/1.jpg"], у услуги — поле img:"images/gel.jpg" */
+ gallery:[
+  [{ru:"Нюдовый",bg:"Нюд",uk:"Нюдовий"},["#ecd5c6","#f6e9df"]],
+  [{ru:"Френч",bg:"Френч",uk:"Френч"},["#f7f2ea","#e5d8c9"]],
+  [{ru:"Молочное",bg:"Млечно",uk:"Молочний"},["#fbf8f3","#efe7dd"]],
+  [{ru:"Зелёный",bg:"Зелен",uk:"Зелений"},["#9fc7ae","#174D3A"]],
+  [{ru:"Дизайн",bg:"Дизайн",uk:"Дизайн"},["#e9c9d4","#b97b91"]],
+  [{ru:"Яркий",bg:"Ярък",uk:"Яскравий"},["#f2a07b","#d6455d"]]],
  schedule:{ // 0=Вс ... 6=Сб; null = выходной; breaks — перерывы
   1:null,2:{from:"09:00",to:"19:00",breaks:[]},3:{from:"09:00",to:"19:00",breaks:[]},
   4:{from:"09:00",to:"19:00",breaks:[]},5:{from:"09:00",to:"19:00",breaks:[]},6:{from:"09:00",to:"19:00",breaks:[]},0:null},
  exceptions:{ /* "2026-12-31":null (выходной) или {from:"10:00",to:"14:00",breaks:[]} */ },
  vacations:[ /* ["2026-12-25","2027-01-08"] */ ],
- booking:{step:30,daysAhead:60,supabaseUrl:"https://wrcfrqnisghmxdgfsahi.supabase.co",anonKey:"sb_publishable_beJ24hJVSy0EnShqinbYfg_n9zsLlFS" /* Supabase: Project URL и anon public key (публичный ключ) */}
+ booking:{step:30,daysAhead:60,supabaseUrl:"https://wrcfrqnisghmxdgfsahi.supabase.co",anonKey:"sb_publishable_beJ24hJVSy0EnShqinbYfg_n9zsLlFS" /* Supabase: Project URL и публичный ключ */}
 };
-/* Занятые интервалы. В рабочем режиме приходят с сервера (без персональных данных). Демо-значения: */
+/* Занятые интервалы приходят из базы (без персональных данных) */
 let BUSY=[];
 async function rpc(name,args){const r=await fetch(C.booking.supabaseUrl.replace(/\/$/,"")+"/rest/v1/rpc/"+name,{method:"POST",headers:Object.assign({"Content-Type":"application/json",apikey:C.booking.anonKey},C.booking.anonKey.startsWith("eyJ")?{Authorization:"Bearer "+C.booking.anonKey}:{}),body:JSON.stringify(args)});if(!r.ok)throw new Error("http "+r.status);return r.json()}
 /* ================================================================================ */
-const C=CONFIG,$=s=>document.querySelector(s),DN=["Воскресенье","Понедельник","Вторник","Среда","Четверг","Пятница","Суббота"];
-const m=t=>{const[a,b]=t.split(":");return+a*60+ +b},hm=n=>String(n/60|0).padStart(2,"0")+":"+String(n%60).padStart(2,"0");
+const T={
+ru:{title:"Arina Nails — красота в каждой детали",desc:"Arina Nails: классический маникюр, гель-лак и педикюр. Онлайн-запись.",navAria:"Основное меню",menuAria:"Меню",langAria:"Язык",
+ nav:["Главная","Обо мне","Услуги","Галерея","График работы","Запись","Контакты"],cta:"Записаться онлайн",
+ heroH:"Красота в каждой детали",heroP:"Профессиональный уход, аккуратная форма, стойкое покрытие и спокойная атмосфера, в которой приятно отдохнуть.",heroSee:"Посмотреть услуги",
+ perks:["Стерильные инструменты","Качественные материалы","Комфортная атмосфера"],heroAlt:"Заглушка: ухоженные руки на фоне растений",heroTag:"Заглушка — замените фото",
+ demo:"Заглушка",aboutH:"Обо мне",photoAlt:"Заглушка: фото мастера",photoTag:"Фото мастера",dl:["Имя","Опыт","Квалификация","Подход","Образование"],
+ servicesH:"Услуги и цены",servicesSub:"Выберите услугу и запишитесь онлайн.",book:"Записаться",min:"мин",demoPrice:"Демо-цена",
+ galleryH:"Галерея",gallerySub:"Демонстрационные заглушки — это не работы мастера. Замените на свои фото.",zoom:"Увеличить:",demoWord:"демо",lbDemo:"демо-заглушка",close:"Закрыть",lbAria:"Просмотр фото",
+ schedH:"График работы",schedSub:"Это же расписание использует онлайн-запись.",off:"Выходной",brk:"перерыв",
+ bookH:"Онлайн-запись",bookSub:"Выберите услугу, дату и свободное время.",
+ s1:"1. Выберите услугу",s2:"2. Выберите дату",freeTime:"Свободное время",noSlots:"Нет свободных слотов",s3:"3. Ваши данные",
+ lblName:"Имя *",lblPhone:"Телефон *",lblEmail:"Email (необязательно)",lblComment:"Комментарий (необязательно)",s4:"4. Проверьте детали",
+ dlSum:["Услуга","Дата","Время","Стоимость","Имя","Телефон"],back:"Назад",next:"Далее",confirm:"Подтвердить запись",sending:"Отправка…",
+ loading:"Загружаем свободное время…",loadErr:"Не удалось загрузить свободное время. Повторите попытку или свяжитесь с мастером.",retry:"Повторить",prevAria:"Назад",nextAria:"Вперёд",
+ vName:"Введите имя",vPhone:"Введите корректный номер телефона",vEmail:"Проверьте email",
+ okTitle:"Заявка принята ✓",okText:"Ждём вас: {d}, {t}. Если планы изменятся, пожалуйста, предупредите мастера заранее.",
+ e_taken:"Это время только что заняли. Выберите другое.",e_saveFail:"Не удалось сохранить запись. Попробуйте ещё раз или свяжитесь с мастером.",e_netFail:"Не удалось отправить заявку. Проверьте соединение и попробуйте ещё раз.",
+ e_past:"Нельзя записаться на прошедшее время.",e_closed:"В этот день студия не работает.",e_outside_hours:"Это время вне рабочего графика.",e_bad_time:"Выберите время из списка.",e_too_far:"Запись так далеко вперёд недоступна.",e_bad_service:"Выберите услугу заново.",e_invalid:"Проверьте имя и телефон.",
+ contactsH:"Контакты",cl:["Телефон","Viber","WhatsApp","Instagram","Адрес"],write:"Написать",profile:"Профиль",mapOpen:"Открыть на карте",mapAria:"Заглушка карты",
+ tagline:"Красивый маникюр для уверенных в себе женщин.",privacy:"Политика конфиденциальности",privAlert:"Добавьте здесь текст политики конфиденциальности.",
+ wd:["Воскресенье","Понедельник","Вторник","Среда","Четверг","Пятница","Суббота"],wdShort:["Пн","Вт","Ср","Чт","Пт","Сб","Вс"]},
+bg:{title:"Arina Nails — красота във всеки детайл",desc:"Arina Nails: класически маникюр, гел лак и педикюр. Онлайн резервация.",navAria:"Основно меню",menuAria:"Меню",langAria:"Език",
+ nav:["Начало","За мен","Услуги","Галерия","Работно време","Резервация","Контакти"],cta:"Запазете час онлайн",
+ heroH:"Красота във всеки детайл",heroP:"Професионални грижи, прецизна форма, дълготрайно покритие и спокойна атмосфера, в която е приятно да си починете.",heroSee:"Вижте услугите",
+ perks:["Стерилни инструменти","Качествени материали","Комфортна атмосфера"],heroAlt:"Заместител: поддържани ръце на фона на растения",heroTag:"Заместител — сменете снимката",
+ demo:"Заместител",aboutH:"За мен",photoAlt:"Заместител: снимка на майстора",photoTag:"Снимка на майстора",dl:["Име","Опит","Квалификация","Подход","Образование"],
+ servicesH:"Услуги и цени",servicesSub:"Изберете услуга и запазете час онлайн.",book:"Запази час",min:"мин",demoPrice:"Демо цена",
+ galleryH:"Галерия",gallerySub:"Демонстрационните заместители не са работи на майстора. Заменете ги със свои снимки.",zoom:"Увеличи:",demoWord:"демо",lbDemo:"демо заместител",close:"Затвори",lbAria:"Преглед на снимка",
+ schedH:"Работно време",schedSub:"Същото разписание използва и онлайн резервацията.",off:"Почивен ден",brk:"почивка",
+ bookH:"Онлайн резервация",bookSub:"Изберете услуга, дата и свободен час.",
+ s1:"1. Изберете услуга",s2:"2. Изберете дата",freeTime:"Свободни часове",noSlots:"Няма свободни часове",s3:"3. Вашите данни",
+ lblName:"Име *",lblPhone:"Телефон *",lblEmail:"Имейл (по желание)",lblComment:"Коментар (по желание)",s4:"4. Проверете детайлите",
+ dlSum:["Услуга","Дата","Час","Цена","Име","Телефон"],back:"Назад",next:"Напред",confirm:"Потвърди резервацията",sending:"Изпращане…",
+ loading:"Зареждаме свободните часове…",loadErr:"Неуспешно зареждане на свободните часове. Опитайте отново или се свържете с майстора.",retry:"Опитай отново",prevAria:"Назад",nextAria:"Напред",
+ vName:"Въведете име",vPhone:"Въведете валиден телефонен номер",vEmail:"Проверете имейла",
+ okTitle:"Заявката е приета ✓",okText:"Очакваме ви: {d}, {t} ч. Ако плановете ви се променят, моля, предупредете майстора предварително.",
+ e_taken:"Този час току-що беше зает. Изберете друг.",e_saveFail:"Неуспешно записване. Опитайте отново или се свържете с майстора.",e_netFail:"Неуспешно изпращане. Проверете връзката и опитайте отново.",
+ e_past:"Не може да запазите час в миналото.",e_closed:"В този ден студиото не работи.",e_outside_hours:"Този час е извън работното време.",e_bad_time:"Изберете час от списъка.",e_too_far:"Резервация толкова напред не е възможна.",e_bad_service:"Изберете услугата отново.",e_invalid:"Проверете името и телефона.",
+ contactsH:"Контакти",cl:["Телефон","Viber","WhatsApp","Instagram","Адрес"],write:"Напишете",profile:"Профил",mapOpen:"Отвори в картата",mapAria:"Заместител на картата",
+ tagline:"Красив маникюр за уверени в себе си жени.",privacy:"Политика за поверителност",privAlert:"Добавете тук текста на политиката за поверителност.",
+ wd:["Неделя","Понеделник","Вторник","Сряда","Четвъртък","Петък","Събота"],wdShort:["Пн","Вт","Ср","Чт","Пт","Сб","Нд"]},
+uk:{title:"Arina Nails — краса в кожній деталі",desc:"Arina Nails: класичний манікюр, гель-лак і педикюр. Онлайн-запис.",navAria:"Основне меню",menuAria:"Меню",langAria:"Мова",
+ nav:["Головна","Про мене","Послуги","Галерея","Графік роботи","Запис","Контакти"],cta:"Записатися онлайн",
+ heroH:"Краса в кожній деталі",heroP:"Професійний догляд, акуратна форма, стійке покриття та спокійна атмосфера, у якій приємно відпочити.",heroSee:"Переглянути послуги",
+ perks:["Стерильні інструменти","Якісні матеріали","Комфортна атмосфера"],heroAlt:"Заглушка: доглянуті руки на тлі рослин",heroTag:"Заглушка — замініть фото",
+ demo:"Заглушка",aboutH:"Про мене",photoAlt:"Заглушка: фото майстра",photoTag:"Фото майстра",dl:["Ім’я","Досвід","Кваліфікація","Підхід","Освіта"],
+ servicesH:"Послуги та ціни",servicesSub:"Оберіть послугу та запишіться онлайн.",book:"Записатися",min:"хв",demoPrice:"Демо-ціна",
+ galleryH:"Галерея",gallerySub:"Демонстраційні заглушки — це не роботи майстра. Замініть на власні фото.",zoom:"Збільшити:",demoWord:"демо",lbDemo:"демо-заглушка",close:"Закрити",lbAria:"Перегляд фото",
+ schedH:"Графік роботи",schedSub:"Цей самий розклад використовує онлайн-запис.",off:"Вихідний",brk:"перерва",
+ bookH:"Онлайн-запис",bookSub:"Оберіть послугу, дату та вільний час.",
+ s1:"1. Оберіть послугу",s2:"2. Оберіть дату",freeTime:"Вільний час",noSlots:"Немає вільних годин",s3:"3. Ваші дані",
+ lblName:"Ім’я *",lblPhone:"Телефон *",lblEmail:"Email (необов’язково)",lblComment:"Коментар (необов’язково)",s4:"4. Перевірте деталі",
+ dlSum:["Послуга","Дата","Час","Вартість","Ім’я","Телефон"],back:"Назад",next:"Далі",confirm:"Підтвердити запис",sending:"Надсилання…",
+ loading:"Завантажуємо вільний час…",loadErr:"Не вдалося завантажити вільний час. Повторіть спробу або зв’яжіться з майстром.",retry:"Повторити",prevAria:"Назад",nextAria:"Вперед",
+ vName:"Введіть ім’я",vPhone:"Введіть коректний номер телефону",vEmail:"Перевірте email",
+ okTitle:"Заявку прийнято ✓",okText:"Чекаємо на вас: {d}, {t}. Якщо плани зміняться, будь ласка, попередьте майстра заздалегідь.",
+ e_taken:"Цей час щойно зайняли. Оберіть інший.",e_saveFail:"Не вдалося зберегти запис. Спробуйте ще раз або зв’яжіться з майстром.",e_netFail:"Не вдалося надіслати заявку. Перевірте з’єднання та спробуйте ще раз.",
+ e_past:"Не можна записатися на минулий час.",e_closed:"У цей день студія не працює.",e_outside_hours:"Цей час поза робочим графіком.",e_bad_time:"Оберіть час зі списку.",e_too_far:"Запис так далеко наперед недоступний.",e_bad_service:"Оберіть послугу ще раз.",e_invalid:"Перевірте ім’я та телефон.",
+ contactsH:"Контакти",cl:["Телефон","Viber","WhatsApp","Instagram","Адреса"],write:"Написати",profile:"Профіль",mapOpen:"Відкрити на мапі",mapAria:"Заглушка мапи",
+ tagline:"Гарний манікюр для впевнених у собі жінок.",privacy:"Політика конфіденційності",privAlert:"Додайте тут текст політики конфіденційності.",
+ wd:["Неділя","Понеділок","Вівторок","Середа","Четвер","П’ятниця","Субота"],wdShort:["Пн","Вт","Ср","Чт","Пт","Сб","Нд"]}
+};
+const LOC={ru:"ru-RU",bg:"bg-BG",uk:"uk-UA"};
+let LANG="ru";
+try{const sv=localStorage.getItem("lang");if(sv&&T[sv])LANG=sv;else{const nl=(navigator.language||"").slice(0,2).toLowerCase();if(T[nl])LANG=nl}}catch(_){}
+const t=k=>(T[LANG][k]!==undefined?T[LANG][k]:T.ru[k]);
+const L=o=>(o&&typeof o==="object")?(o[LANG]||o.ru):o;
+const C=CONFIG,$=s=>document.querySelector(s);
+const m=x=>{const[a,b]=x.split(":");return+a*60+ +b},hm=n=>String(n/60|0).padStart(2,"0")+":"+String(n%60).padStart(2,"0");
 const iso=d=>d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
-const money=s=>s.price.toLocaleString("ru-RU")+" "+(s.cur||C.currency), grad=c=>`linear-gradient(150deg,${c[0]},${c[1]})`;
+const money=s=>s.price.toLocaleString(LOC[LANG])+" "+(s.cur||C.currency),grad=c=>`linear-gradient(150deg,${c[0]},${c[1]})`;
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const fmtDate=d=>new Date(d+"T00:00").toLocaleDateString(LOC[LANG],{day:"numeric",month:"long",year:"numeric"});
 const P=C.contacts;
 const DB=!!(C.booking.supabaseUrl&&C.booking.anonKey);
-/* --- static render --- */
-const links=[["home","Главная"],["about","Обо мне"],["services","Услуги"],["gallery","Галерея"],["schedule","График работы"],["booking","Запись"],["contacts","Контакты"]];
-$("#menu").innerHTML=links.map(l=>`<li><a href="#${l[0]}">${l[1]}</a></li>`).join("");
-$("#logo").innerHTML="🌿 "+esc(C.brand);$("#flogo").textContent="🌿 "+C.brand;
-$("#hPhone").textContent=P.phone;$("#hPhone").href="tel:"+P.phone.replace(/[^+\d]/g,"");$("#hHours").textContent=P.hours;$("#yr").textContent=new Date().getFullYear();
+const IDS=["home","about","services","gallery","schedule","booking","contacts"];
+const tel=P.phone.replace(/[^+\d]/g,"");
+const io=("IntersectionObserver" in window)?new IntersectionObserver(es=>es.forEach(x=>{if(x.isIntersecting){x.target.classList.add("in");io.unobserve(x.target)}}),{threshold:.1}):null;
+function watch(){document.querySelectorAll(".rv:not(.in)").forEach(el=>{if(io)io.observe(el);else el.classList.add("in")})}
+
+/* --- static render (повторяется при смене языка) --- */
+function renderStatic(){
+ document.documentElement.lang=LANG;document.title=t("title");
+ $('meta[name=description]').setAttribute("content",t("desc"));
+ document.querySelectorAll("[data-i18n]").forEach(el=>{el.textContent=t(el.dataset.i18n)});
+ document.querySelectorAll("[data-i18n-aria]").forEach(el=>{el.setAttribute("aria-label",t(el.dataset.i18nAria))});
+ $("#menu").innerHTML=IDS.map((id,i)=>`<li><a href="#${id}">${t("nav")[i]}</a></li>`).join("");
+ $("#logo").textContent="🌿 "+C.brand;$("#flogo").textContent="🌿 "+C.brand;
+ $("#hPhone").textContent=P.phone;$("#hPhone").href="tel:"+tel;$("#hHours").textContent=P.hours;$("#yr").textContent=new Date().getFullYear();
+ $("#lang").innerHTML=[["ru","RU","Русский"],["bg","BG","Български"],["uk","UA","Українська"]].map(l=>`<button data-lang="${l[0]}" aria-pressed="${LANG==l[0]}" aria-label="${l[2]}">${l[1]}</button>`).join("");
+ $("#perks").innerHTML=t("perks").map(p=>`<li><span class="ic">✓</span>${esc(p)}</li>`).join("");
+ const M=C.master;
+ $("#aBio").textContent=L(M.bio);
+ $("#aDl").innerHTML=[M.name,M.experience,M.qualification,M.approach,M.education].map((v,i)=>`<dt>${t("dl")[i]}</dt><dd>${esc(L(v))}</dd>`).join("");
+ $("#aPerks").innerHTML=M.perks.map(p=>`<li><span class="ic">✦</span>${esc(L(p))}</li>`).join("");
+ $("#svc").innerHTML=C.services.map(s=>`<article class="card rv"><div class="im" style="background:${s.img?`url('${esc(s.img)}') center/cover`:grad(s.c)}" role="img" aria-label="${s.img?"":t("demo")+": "}${esc(L(s.name))}"></div><div class="bd"><span class="demo">${s.real?"&nbsp;":t("demoPrice")}</span><h3>${esc(L(s.name))}</h3><p>${esc(L(s.desc))}</p><div class="meta"><span>${s.min} ${t("min")}</span><span>${money(s)}</span></div><button class="btn" data-svc="${s.id}">${t("book")}</button></div></article>`).join("");
+ $("#gal").innerHTML=C.gallery.map((g,i)=>`<button data-g="${i}" aria-label="${t("zoom")} ${esc(L(g[0]))}" style="background:${grad(g[1])}">${g[2]?`<img src="${esc(g[2])}" alt="${esc(L(g[0]))}" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block">`:""}<span>${esc(L(g[0]))}${g[2]?"":" · "+t("demoWord")}</span></button>`).join("");
+ $("#sch").innerHTML=[1,2,3,4,5,6,0].map(d=>{const s=C.schedule[d];return `<tr><td>${t("wd")[d]}</td><td>${s?s.from+"–"+s.to+(s.breaks.length?` <small style="font-weight:400;color:var(--mut)">(${t("brk")} ${s.breaks.map(b=>b.join("–")).join(", ")})</small>`:""):t("off")}</td></tr>`}).join("");
+ const cl=[["☎",t("cl")[0],P.phone,"tel:"+tel],["💬",t("cl")[1],t("write"),P.viber],["💬",t("cl")[2],t("write"),P.whatsapp],["◎",t("cl")[3],t("profile"),P.instagram],["⌖",t("cl")[4],L(P.address),P.map]];
+ $("#cl").innerHTML=cl.map(c=>`<li><span class="ic">${c[0]}</span><a href="${c[3]}" target="${c[3].startsWith("http")?"_blank":"_self"}" rel="noopener"><b>${c[1]}:</b> ${esc(c[2])}</a></li>`).join("");
+ $("#map").href=P.map;
+ $("#fc").innerHTML=`<a href="tel:${tel}">${P.phone}</a><br>${esc(L(P.address))}`;
+ $("#fs").innerHTML=`<a href="${P.instagram}">Instagram</a><br><a href="${P.viber}">Viber</a><br><a href="${P.whatsapp}">WhatsApp</a>`;
+ render();watch();
+}
+function setLang(l){
+ if(!T[l]||l==LANG)return;
+ if(S.step==3&&$("#fn")){S.name=$("#fn").value;S.phone=$("#fp").value;S.email=$("#fe").value;S.comment=$("#fc2").value}
+ LANG=l;try{localStorage.setItem("lang",l)}catch(_){}
+ S.err="";renderStatic();
+}
+/* --- events --- */
 $("#burger").onclick=()=>{const o=$("#nav").classList.toggle("open");$("#burger").setAttribute("aria-expanded",o)};
 $("#menu").onclick=e=>{if(e.target.tagName=="A"){$("#nav").classList.remove("open")}};
-$("#aBio").textContent=C.master.bio;
-$("#aDl").innerHTML=[["Имя",C.master.name],["Опыт",C.master.experience],["Квалификация",C.master.qualification],["Подход",C.master.approach],["Образование",C.master.education]].map(r=>`<dt>${r[0]}</dt><dd>${esc(r[1])}</dd>`).join("");
-$("#aPerks").innerHTML=C.master.perks.map(p=>`<li><span class="ic">✦</span>${esc(p)}</li>`).join("");
-$("#svc").innerHTML=C.services.map(s=>`<article class="card rv"><div class="im" style="background:${s.img?`url('${esc(s.img)}') center/cover`:grad(s.c)}" role="img" aria-label="${s.img?"":"Заглушка: "}${esc(s.name)}"></div><div class="bd"><span class="demo">${s.real?"&nbsp;":"Демо-цена"}</span><h3>${esc(s.name)}</h3><p>${esc(s.desc)}</p><div class="meta"><span>${s.min} мин</span><span>${money(s)}</span></div><button class="btn" data-svc="${s.id}">Записаться</button></div></article>`).join("");
-$("#gal").innerHTML=C.gallery.map((g,i)=>`<button data-g="${i}" aria-label="Увеличить: ${g[0]}" style="background:${grad(g[1])}">${g[2]?`<img src="${esc(g[2])}" alt="${esc(g[0])}" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block">`:""}<span>${g[0]}${g[2]?"":" · демо"}</span></button>`).join("");
-$("#gal").onclick=e=>{const b=e.target.closest("[data-g]");if(!b)return;const g=C.gallery[b.dataset.g];$("#lbi").style.background=g[2]?`url('${g[2]}') center/cover`:grad(g[1]);$("#lbi").textContent=g[2]?g[0]:g[0]+" · демо-заглушка";$("#lb").classList.add("on");$("#lbx").focus()};
-const cl=()=>{$("#lb").classList.remove("on")};$("#lbx").onclick=cl;$("#lb").onclick=e=>{if(e.target.id=="lb")cl()};document.addEventListener("keydown",e=>{if(e.key=="Escape")cl()});
-$("#sch").innerHTML=[1,2,3,4,5,6,0].map(d=>{const s=C.schedule[d];return `<tr><td>${DN[d]}</td><td>${s?s.from+"–"+s.to+(s.breaks.length?` <small style="font-weight:400;color:var(--mut)">(перерыв ${s.breaks.map(b=>b.join("–")).join(", ")})</small>`:""):"Выходной"}</td></tr>`}).join("");
-$("#exc").textContent="Отпуска и исключения для дат задаются в CONFIG.";
-const tel=P.phone.replace(/[^+\d]/g,"");
-$("#cl").innerHTML=[["☎","Телефон",P.phone,"tel:"+tel],["💬","Viber","Написать",P.viber],["💬","WhatsApp","Написать",P.whatsapp],["◎","Instagram","Профиль",P.instagram],["⌖","Адрес",P.address,P.map]].map(c=>`<li><span class="ic">${c[0]}</span><a href="${c[3]}" target="${c[3].startsWith("http")?"_blank":"_self"}" rel="noopener"><b>${c[1]}:</b> ${esc(c[2])}</a></li>`).join("");
-$("#map").href=P.map;
-$("#fc").innerHTML=`<a href="tel:${tel}">${P.phone}</a><br>${esc(P.address)}`;
-$("#fs").innerHTML=`<a href="${P.instagram}">Instagram</a><br><a href="${P.viber}">Viber</a><br><a href="${P.whatsapp}">WhatsApp</a>`;
-$("#priv").onclick=e=>{e.preventDefault();alert("Добавьте здесь текст политики конфиденциальности.")};
+$("#lang").onclick=e=>{const b=e.target.closest("[data-lang]");if(b)setLang(b.dataset.lang)};
+$("#gal").onclick=e=>{const b=e.target.closest("[data-g]");if(!b)return;const g=C.gallery[b.dataset.g];$("#lbi").style.background=g[2]?`url('${g[2]}') center/cover`:grad(g[1]);$("#lbi").textContent=g[2]?L(g[0]):L(g[0])+" · "+t("lbDemo");$("#lb").classList.add("on");$("#lbx").focus()};
+const closeLb=()=>{$("#lb").classList.remove("on")};$("#lbx").onclick=closeLb;$("#lb").onclick=e=>{if(e.target.id=="lb")closeLb()};document.addEventListener("keydown",e=>{if(e.key=="Escape")closeLb()});
+$("#priv").onclick=e=>{e.preventDefault();alert(t("privAlert"))};
+
 /* --- availability --- */
 function dayRule(d){const k=iso(d);if(C.vacations.some(v=>k>=v[0]&&k<=v[1]))return null;return k in C.exceptions?C.exceptions[k]:C.schedule[d.getDay()]}
 function slots(d,svc){const r=dayRule(d);if(!r)return[];const k=iso(d),now=new Date(),out=[],st=C.booking.step,len=svc.min;
- for(let t=m(r.from);t+len<=m(r.to);t+=st){
-  if(k==iso(now)&&t<=now.getHours()*60+now.getMinutes())continue;
-  if(r.breaks.some(b=>t<m(b[1])&&t+len>m(b[0])))continue;
-  if(BUSY.some(b=>b.date==k&&t<m(b.to)&&t+len>m(b.from)))continue;out.push(t)}return out}
+ for(let x=m(r.from);x+len<=m(r.to);x+=st){
+  if(k==iso(now)&&x<=now.getHours()*60+now.getMinutes())continue;
+  if(r.breaks.some(b=>x<m(b[1])&&x+len>m(b[0])))continue;
+  if(BUSY.some(b=>b.date==k&&x<m(b.to)&&x+len>m(b.from)))continue;out.push(x)}return out}
+
 /* --- booking wizard --- */
-const S={step:1,svc:null,date:null,time:null,month:new Date(),name:"",phone:"",email:"",comment:"",busy:false,done:null,error:"",loading:false,busyError:false};S.month.setDate(1);
+const S={step:1,svc:null,date:null,time:null,month:new Date(),name:"",phone:"",email:"",comment:"",busy:false,done:null,err:"",loading:false,busyError:false};S.month.setDate(1);
 const bk=$("#bk");
-const ERR={past:"Нельзя записаться на прошедшее время.",closed:"В этот день студия не работает.",outside_hours:"Это время вне рабочего графика.",bad_time:"Выберите время из списка.",too_far:"Запись так далеко вперёд недоступна.",bad_service:"Выберите услугу заново.",invalid:"Проверьте имя и телефон."};
-async function refreshBusy(){if(!DB){render();return}S.loading=true;S.busyError=false;render();try{const t=new Date();t.setHours(0,0,0,0);const e=new Date(t);e.setDate(e.getDate()+C.booking.daysAhead+1);const rows=await rpc("get_busy",{p_from:iso(t),p_to:iso(e)});BUSY=rows.map(x=>({date:x.day,from:x.from_t,to:x.to_t}))}catch(_){S.busyError=true}S.loading=false;render()}
+async function refreshBusy(){if(!DB){render();return}S.loading=true;S.busyError=false;render();try{const d0=new Date();d0.setHours(0,0,0,0);const d1=new Date(d0);d1.setDate(d1.getDate()+C.booking.daysAhead+1);const rows=await rpc("get_busy",{p_from:iso(d0),p_to:iso(d1)});BUSY=rows.map(x=>({date:x.day,from:x.from_t,to:x.to_t}))}catch(_){S.busyError=true}S.loading=false;render()}
+const errHtml=()=>S.err?`<div class="err" role="alert">${t("e_"+S.err)}</div>`:"";
 function render(){
- const st=`<div class="steps">${[1,2,3,4,5].map(i=>`<i class="${i<=S.step?"on":""}"></i>`).join("")}</div>`;let h=st;
- if(S.done){bk.innerHTML=h+S.done;return}
- if(S.step==1)h+=`<h3>1. Выберите услугу</h3><div style="margin-top:14px">`+C.services.map(s=>`<button class="opt ${S.svc&&S.svc.id==s.id?"sel":""}" data-s="${s.id}" aria-pressed="${!!S.svc&&S.svc.id==s.id}"><span>${esc(s.name)}<br><small>${s.min} мин</small></span><b>${money(s)}</b></button>`).join("")+`</div>`;
- if(S.step==2&&(S.loading||S.busyError))h+=S.loading?`<h3>2. Выберите дату</h3><p>Загружаем свободное время…</p>`:`<h3>2. Выберите дату</h3><div class="err" role="alert">Не удалось загрузить свободное время. Повторите попытку или свяжитесь с мастером.</div><button class="btn ghost" data-retry="1">Повторить</button>`;
+ let h=`<div class="steps">${[1,2,3,4,5].map(i=>`<i class="${i<=S.step?"on":""}"></i>`).join("")}</div>`;
+ if(S.done){bk.innerHTML=h+`<h3>${t("okTitle")}</h3><p>${t("okText").replace("{d}",fmtDate(S.done.date)).replace("{t}",hm(S.done.time))}</p>`;return}
+ if(S.step==1)h+=`<h3>${t("s1")}</h3><div style="margin-top:14px">`+C.services.map(s=>`<button class="opt ${S.svc&&S.svc.id==s.id?"sel":""}" data-s="${s.id}" aria-pressed="${!!S.svc&&S.svc.id==s.id}"><span>${esc(L(s.name))}<br><small>${s.min} ${t("min")}</small></span><b>${money(s)}</b></button>`).join("")+`</div>`;
+ if(S.step==2&&(S.loading||S.busyError))h+=S.loading?`<h3>${t("s2")}</h3><p>${t("loading")}</p>`:`<h3>${t("s2")}</h3><div class="err" role="alert">${t("loadErr")}</div><button class="btn ghost" data-retry="1">${t("retry")}</button>`;
  else if(S.step==2){const y=S.month.getFullYear(),mo=S.month.getMonth(),first=(new Date(y,mo,1).getDay()+6)%7,n=new Date(y,mo+1,0).getDate(),today=new Date();today.setHours(0,0,0,0);const max=new Date(today);max.setDate(max.getDate()+C.booking.daysAhead);
-  h+=`<h3>2. Выберите дату</h3>${S.error?`<div class="err" role="alert">${S.error}</div>`:""}<div class="mh" style="margin-top:14px"><button data-mv="-1" aria-label="Назад">‹</button><b>${S.month.toLocaleDateString("ru-RU",{month:"long",year:"numeric"})}</b><button data-mv="1" aria-label="Вперёд">›</button></div><div class="cal">`+["Пн","Вт","Ср","Чт","Пт","Сб","Вс"].map(x=>`<b>${x}</b>`).join("")+"<span></span>".repeat(first);
+  h+=`<h3>${t("s2")}</h3>${errHtml()}<div class="mh" style="margin-top:14px"><button data-mv="-1" aria-label="${t("prevAria")}">‹</button><b>${S.month.toLocaleDateString(LOC[LANG],{month:"long",year:"numeric"})}</b><button data-mv="1" aria-label="${t("nextAria")}">›</button></div><div class="cal">`+t("wdShort").map(x=>`<b>${x}</b>`).join("")+"<span></span>".repeat(first);
   for(let d=1;d<=n;d++){const dt=new Date(y,mo,d),ok=dt>=today&&dt<=max&&slots(dt,S.svc).length>0;h+=`<button ${ok?"":"disabled"} data-d="${iso(dt)}" class="${S.date==iso(dt)?"sel":""}">${d}</button>`}
   h+=`</div>`;
-  if(S.date){const dt=new Date(S.date+"T00:00"),sl=slots(dt,S.svc);h+=`<h3 style="margin-top:20px;font-size:1.2rem">Свободное время</h3><div class="slots">`+(sl.length?sl.map(t=>`<button data-t="${t}" class="${S.time===t?"sel":""}">${hm(t)}</button>`).join(""):"Нет свободных слотов")+`</div>`}}
- if(S.step==3)h+=`<h3>3. Ваши данные</h3><label for="fn">Имя *</label><input id="fn" autocomplete="name" value="${esc(S.name)}"><div class="err" id="e1"></div><label for="fp">Телефон *</label><input id="fp" type="tel" inputmode="tel" autocomplete="tel" value="${esc(S.phone)}"><div class="err" id="e2"></div><label for="fe">Email (необязательно)</label><input id="fe" type="email" autocomplete="email" value="${esc(S.email)}"><div class="err" id="e3"></div><label for="fc2">Комментарий (необязательно)</label><textarea id="fc2" rows="3">${esc(S.comment)}</textarea>`;
- if(S.step==4)h+=`<h3>4. Проверьте детали</h3><dl style="margin-top:14px"><dt>Услуга</dt><dd>${esc(S.svc.name)}</dd><dt>Дата</dt><dd>${new Date(S.date+"T00:00").toLocaleDateString("ru-RU",{weekday:"long",day:"numeric",month:"long"})}</dd><dt>Время</dt><dd>${hm(S.time)}–${hm(S.time+S.svc.min)} (${S.svc.min} мин)</dd><dt>Стоимость</dt><dd>${money(S.svc)}</dd><dt>Имя</dt><dd>${esc(S.name)}</dd><dt>Телефон</dt><dd>${esc(S.phone)}</dd></dl>`+(DB?"":`<div class="note">⚠ Сервер записи пока не подключён (демо). Заявка не будет сохранена, пока не подключена база данных.</div>`)+(S.error?`<div class="err" role="alert">${S.error}</div>`:"");
+  if(S.date){const dt=new Date(S.date+"T00:00"),sl=slots(dt,S.svc);h+=`<h3 style="margin-top:20px;font-size:1.2rem">${t("freeTime")}</h3><div class="slots">`+(sl.length?sl.map(x=>`<button data-t="${x}" class="${S.time===x?"sel":""}">${hm(x)}</button>`).join(""):t("noSlots"))+`</div>`}}
+ if(S.step==3)h+=`<h3>${t("s3")}</h3><label for="fn">${t("lblName")}</label><input id="fn" autocomplete="name" value="${esc(S.name)}"><div class="err" id="e1"></div><label for="fp">${t("lblPhone")}</label><input id="fp" type="tel" inputmode="tel" autocomplete="tel" value="${esc(S.phone)}"><div class="err" id="e2"></div><label for="fe">${t("lblEmail")}</label><input id="fe" type="email" autocomplete="email" value="${esc(S.email)}"><div class="err" id="e3"></div><label for="fc2">${t("lblComment")}</label><textarea id="fc2" rows="3">${esc(S.comment)}</textarea>`;
+ if(S.step==4){const D=t("dlSum");h+=`<h3>${t("s4")}</h3><dl style="margin-top:14px"><dt>${D[0]}</dt><dd>${esc(L(S.svc.name))}</dd><dt>${D[1]}</dt><dd>${fmtDate(S.date)}</dd><dt>${D[2]}</dt><dd>${hm(S.time)}–${hm(S.time+S.svc.min)} (${S.svc.min} ${t("min")})</dd><dt>${D[3]}</dt><dd>${money(S.svc)}</dd><dt>${D[4]}</dt><dd>${esc(S.name)}</dd><dt>${D[5]}</dt><dd>${esc(S.phone)}</dd></dl>`+errHtml()}
  const can=S.step==1?!!S.svc:S.step==2?S.time!=null:true;
- h+=`<div class="nav2">${S.step>1?`<button class="btn ghost" data-nav="-1">Назад</button>`:"<span></span>"}<button class="btn" data-nav="1" ${can&&!S.busy?"":"disabled"}>${S.step==4?(S.busy?"Отправка…":"Подтвердить запись"):"Далее"}</button></div>`;
+ h+=`<div class="nav2">${S.step>1?`<button class="btn ghost" data-nav="-1">${t("back")}</button>`:"<span></span>"}<button class="btn" data-nav="1" ${can&&!S.busy?"":"disabled"}>${S.step==4?(S.busy?t("sending"):t("confirm")):t("next")}</button></div>`;
  bk.innerHTML=h}
-bk.onclick=async e=>{const t=e.target.closest("button");if(!t)return;
- if(t.dataset.retry){return refreshBusy()}
- else if(t.dataset.s){S.svc=C.services.find(s=>s.id==t.dataset.s);S.date=S.time=null}
- else if(t.dataset.mv){S.month.setMonth(S.month.getMonth()+ +t.dataset.mv)}
- else if(t.dataset.d){S.date=t.dataset.d;S.time=null}
- else if(t.dataset.t){S.time=+t.dataset.t}
- else if(t.dataset.nav){const dir=+t.dataset.nav;
+bk.onclick=async e=>{const b=e.target.closest("button");if(!b)return;
+ if(b.dataset.retry){return refreshBusy()}
+ else if(b.dataset.s){S.svc=C.services.find(s=>s.id==b.dataset.s);S.date=S.time=null}
+ else if(b.dataset.mv){S.month.setMonth(S.month.getMonth()+ +b.dataset.mv)}
+ else if(b.dataset.d){S.date=b.dataset.d;S.time=null}
+ else if(b.dataset.t){S.time=+b.dataset.t}
+ else if(b.dataset.nav){const dir=+b.dataset.nav;
   if(S.step==3&&dir>0&&!saveForm())return;
   if(S.step==4&&dir>0){return submit()}
-  S.step+=dir;S.error="";if(S.step==2&&dir>0){return refreshBusy()}}
+  S.step+=dir;S.err="";if(S.step==2&&dir>0){return refreshBusy()}}
  else return;render()};
 function saveForm(){S.name=$("#fn").value.trim();S.phone=$("#fp").value.trim();S.email=$("#fe").value.trim();S.comment=$("#fc2").value.trim();let ok=true;
- $("#e1").textContent=S.name.length<2?(ok=false,"Введите имя"):"";
- $("#e2").textContent=S.phone.replace(/\D/g,"").length<10?(ok=false,"Введите корректный номер телефона"):"";
- $("#e3").textContent=S.email&&!/^\S+@\S+\.\S+$/.test(S.email)?(ok=false,"Проверьте email"):"";return ok}
-async function submit(){S.error="";
- if(!DB){S.error="Не удалось сохранить запись: сервер не подключён. Свяжитесь с мастером по телефону или в мессенджере.";return render()}
+ $("#e1").textContent=S.name.length<2?(ok=false,t("vName")):"";
+ $("#e2").textContent=S.phone.replace(/\D/g,"").length<10?(ok=false,t("vPhone")):"";
+ $("#e3").textContent=S.email&&!/^\S+@\S+\.\S+$/.test(S.email)?(ok=false,t("vEmail")):"";return ok}
+async function submit(){S.err="";
  S.busy=true;render();
  try{const r=await rpc("book_slot",{p_service:S.svc.id,p_date:S.date,p_start:hm(S.time),p_name:S.name,p_phone:S.phone,p_email:S.email||null,p_comment:S.comment||null});
-  if(r&&r.error=="slot_taken"){S.busy=false;S.step=2;S.time=null;S.error="Это время только что заняли. Выберите другое.";await refreshBusy();return}
-  if(!r||r.ok!==true){S.error=ERR[r&&r.error]||"Не удалось сохранить запись. Попробуйте ещё раз или свяжитесь с мастером.";S.busy=false;return render()}
-  S.done=`<h3>Заявка принята ✓</h3><p>Мы ждём вас ${S.date} в ${hm(S.time)}. Если планы изменятся, пожалуйста, предупредите мастера заранее.</p>`}
- catch(_){S.error="Не удалось отправить заявку. Проверьте соединение и попробуйте ещё раз."}
+  if(r&&r.error=="slot_taken"){S.busy=false;S.step=2;S.time=null;S.err="taken";await refreshBusy();return}
+  if(!r||r.ok!==true){S.err=(r&&T.ru["e_"+r.error])?r.error:"saveFail";S.busy=false;return render()}
+  BUSY.push({date:S.date,from:hm(S.time),to:hm(S.time+S.svc.min)});
+  S.done={date:S.date,time:S.time}}
+ catch(_){S.err="netFail"}
  S.busy=false;render()}
-document.addEventListener("click",e=>{const b=e.target.closest("[data-svc]");if(!b)return;S.svc=C.services.find(s=>s.id==b.dataset.svc);S.step=2;S.date=S.time=null;S.done=null;refreshBusy();$("#booking").scrollIntoView()});
-render();
-const io=new IntersectionObserver(es=>es.forEach(x=>{if(x.isIntersecting){x.target.classList.add("in");io.unobserve(x.target)}}),{threshold:.1});
-document.querySelectorAll(".rv").forEach(el=>io.observe(el));
+document.addEventListener("click",e=>{const b=e.target.closest("[data-svc]");if(!b)return;S.svc=C.services.find(s=>s.id==b.dataset.svc);S.step=2;S.date=S.time=null;S.done=null;S.err="";refreshBusy();$("#booking").scrollIntoView()});
+renderStatic();
 </script>
 </body>
 </html>
