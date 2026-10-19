@@ -134,6 +134,7 @@ const CONFIG={
   {id:"pedicure-classic",name:"Классический педикюр",desc:"Аккуратная обработка стоп и кутикулы, придание формы ногтям.",min:90,price:30,cur:"€",real:true,c:["#e3ece6","#8fb5a0"]},
   ],
  currency:"₽",
+ /* Фото: ложите свои файлы в папку images/ репозитория и добавляйте путь: в галерее — третий элемент [имя,[цвета],"images/1.jpg"], у услуги — поле img:"images/gel.jpg" */
  gallery:[["Нюдовый",["#ecd5c6","#f6e9df"]],["Френч",["#f7f2ea","#e5d8c9"]],["Молочное",["#fbf8f3","#efe7dd"]],["Зелёный",["#9fc7ae","#174D3A"]],["Дизайн",["#e9c9d4","#b97b91"]],["Яркий",["#f2a07b","#d6455d"]]],
  schedule:{ // 0=Вс ... 6=Сб; null = выходной; breaks — перерывы
   1:null,2:{from:"09:00",to:"19:00",breaks:[]},3:{from:"09:00",to:"19:00",breaks:[]},
@@ -163,9 +164,9 @@ $("#menu").onclick=e=>{if(e.target.tagName=="A"){$("#nav").classList.remove("ope
 $("#aBio").textContent=C.master.bio;
 $("#aDl").innerHTML=[["Имя",C.master.name],["Опыт",C.master.experience],["Квалификация",C.master.qualification],["Подход",C.master.approach],["Образование",C.master.education]].map(r=>`<dt>${r[0]}</dt><dd>${esc(r[1])}</dd>`).join("");
 $("#aPerks").innerHTML=C.master.perks.map(p=>`<li><span class="ic">✦</span>${esc(p)}</li>`).join("");
-$("#svc").innerHTML=C.services.map(s=>`<article class="card rv"><div class="im" style="background:${grad(s.c)}" role="img" aria-label="Заглушка: ${esc(s.name)}"></div><div class="bd"><span class="demo">${s.real?"&nbsp;":"Демо-цена"}</span><h3>${esc(s.name)}</h3><p>${esc(s.desc)}</p><div class="meta"><span>${s.min} мин</span><span>${money(s)}</span></div><button class="btn" data-svc="${s.id}">Записаться</button></div></article>`).join("");
-$("#gal").innerHTML=C.gallery.map((g,i)=>`<button data-g="${i}" aria-label="Увеличить: ${g[0]}" style="background:${grad(g[1])}"><span>${g[0]} · демо</span></button>`).join("");
-$("#gal").onclick=e=>{const b=e.target.closest("[data-g]");if(!b)return;const g=C.gallery[b.dataset.g];$("#lbi").style.background=grad(g[1]);$("#lbi").textContent=g[0]+" · демо-заглушка";$("#lb").classList.add("on");$("#lbx").focus()};
+$("#svc").innerHTML=C.services.map(s=>`<article class="card rv"><div class="im" style="background:${s.img?`url('${esc(s.img)}') center/cover`:grad(s.c)}" role="img" aria-label="${s.img?"":"Заглушка: "}${esc(s.name)}"></div><div class="bd"><span class="demo">${s.real?"&nbsp;":"Демо-цена"}</span><h3>${esc(s.name)}</h3><p>${esc(s.desc)}</p><div class="meta"><span>${s.min} мин</span><span>${money(s)}</span></div><button class="btn" data-svc="${s.id}">Записаться</button></div></article>`).join("");
+$("#gal").innerHTML=C.gallery.map((g,i)=>`<button data-g="${i}" aria-label="Увеличить: ${g[0]}" style="background:${grad(g[1])}">${g[2]?`<img src="${esc(g[2])}" alt="${esc(g[0])}" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block">`:""}<span>${g[0]}${g[2]?"":" · демо"}</span></button>`).join("");
+$("#gal").onclick=e=>{const b=e.target.closest("[data-g]");if(!b)return;const g=C.gallery[b.dataset.g];$("#lbi").style.background=g[2]?`url('${g[2]}') center/cover`:grad(g[1]);$("#lbi").textContent=g[2]?g[0]:g[0]+" · демо-заглушка";$("#lb").classList.add("on");$("#lbx").focus()};
 const cl=()=>{$("#lb").classList.remove("on")};$("#lbx").onclick=cl;$("#lb").onclick=e=>{if(e.target.id=="lb")cl()};document.addEventListener("keydown",e=>{if(e.key=="Escape")cl()});
 $("#sch").innerHTML=[1,2,3,4,5,6,0].map(d=>{const s=C.schedule[d];return `<tr><td>${DN[d]}</td><td>${s?s.from+"–"+s.to+(s.breaks.length?` <small style="font-weight:400;color:var(--mut)">(перерыв ${s.breaks.map(b=>b.join("–")).join(", ")})</small>`:""):"Выходной"}</td></tr>`}).join("");
 $("#exc").textContent="Отпуска и исключения для дат задаются в CONFIG.";
