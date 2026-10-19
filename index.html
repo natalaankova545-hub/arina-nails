@@ -140,10 +140,12 @@ const CONFIG={
   4:{from:"09:00",to:"19:00",breaks:[]},5:{from:"09:00",to:"19:00",breaks:[]},6:{from:"09:00",to:"19:00",breaks:[]},0:null},
  exceptions:{ /* "2026-12-31":null (выходной) или {from:"10:00",to:"14:00",breaks:[]} */ },
  vacations:[ /* ["2026-12-25","2027-01-08"] */ ],
- booking:{step:30,daysAhead:60,endpoint:"" /* URL серверной функции (Supabase Edge Function) */}
+ booking:{step:30,daysAhead:60,supabaseUrl:"",anonKey:"" /* Supabase: Project URL и anon public key (публичный ключ) */}
 };
 /* Занятые интервалы. В рабочем режиме приходят с сервера (без персональных данных). Демо-значения: */
 let BUSY=[];
+const DB=!!(C.booking.supabaseUrl&&C.booking.anonKey);
+async function rpc(name,args){const r=await fetch(C.booking.supabaseUrl.replace(/\/$/,"")+"/rest/v1/rpc/"+name,{method:"POST",headers:{"Content-Type":"application/json",apikey:C.booking.anonKey,Authorization:"Bearer "+C.booking.anonKey},body:JSON.stringify(args)});if(!r.ok)throw new Error("http "+r.status);return r.json()}
 /* ================================================================================ */
 const C=CONFIG,$=s=>document.querySelector(s),DN=["Воскресенье","Понедельник","Вторник","Среда","Четверг","Пятница","Суббота"];
 const m=t=>{const[a,b]=t.split(":");return+a*60+ +b},hm=n=>String(n/60|0).padStart(2,"0")+":"+String(n%60).padStart(2,"0");
@@ -181,46 +183,50 @@ function slots(d,svc){const r=dayRule(d);if(!r)return[];const k=iso(d),now=new D
   if(r.breaks.some(b=>t<m(b[1])&&t+len>m(b[0])))continue;
   if(BUSY.some(b=>b.date==k&&t<m(b.to)&&t+len>m(b.from)))continue;out.push(t)}return out}
 /* --- booking wizard --- */
-const S={step:1,svc:null,date:null,time:null,month:new Date(),name:"",phone:"",email:"",comment:"",busy:false,done:null,error:""};S.month.setDate(1);
+const S={step:1,svc:null,date:null,time:null,month:new Date(),name:"",phone:"",email:"",comment:"",busy:false,done:null,error:"",loading:false,busyError:false};S.month.setDate(1);
 const bk=$("#bk");
+const ERR={past:"Нельзя записаться на прошедшее время.",closed:"В этот день студия не работает.",outside_hours:"Это время вне рабочего графика.",bad_time:"Выберите время из списка.",too_far:"Запись так далеко вперёд недоступна.",bad_service:"Выберите услугу заново.",invalid:"Проверьте имя и телефон."};
+async function refreshBusy(){if(!DB){render();return}S.loading=true;S.busyError=false;render();try{const t=new Date();t.setHours(0,0,0,0);const e=new Date(t);e.setDate(e.getDate()+C.booking.daysAhead+1);const rows=await rpc("get_busy",{p_from:iso(t),p_to:iso(e)});BUSY=rows.map(x=>({date:x.day,from:x.from_t,to:x.to_t}))}catch(_){S.busyError=true}S.loading=false;render()}
 function render(){
  const st=`<div class="steps">${[1,2,3,4,5].map(i=>`<i class="${i<=S.step?"on":""}"></i>`).join("")}</div>`;let h=st;
  if(S.done){bk.innerHTML=h+S.done;return}
  if(S.step==1)h+=`<h3>1. Выберите услугу</h3><div style="margin-top:14px">`+C.services.map(s=>`<button class="opt ${S.svc&&S.svc.id==s.id?"sel":""}" data-s="${s.id}" aria-pressed="${!!S.svc&&S.svc.id==s.id}"><span>${esc(s.name)}<br><small>${s.min} мин</small></span><b>${money(s)}</b></button>`).join("")+`</div>`;
- if(S.step==2){const y=S.month.getFullYear(),mo=S.month.getMonth(),first=(new Date(y,mo,1).getDay()+6)%7,n=new Date(y,mo+1,0).getDate(),today=new Date();today.setHours(0,0,0,0);const max=new Date(today);max.setDate(max.getDate()+C.booking.daysAhead);
-  h+=`<h3>2. Выберите дату</h3><div class="mh" style="margin-top:14px"><button data-mv="-1" aria-label="Назад">‹</button><b>${S.month.toLocaleDateString("ru-RU",{month:"long",year:"numeric"})}</b><button data-mv="1" aria-label="Вперёд">›</button></div><div class="cal">`+["Пн","Вт","Ср","Чт","Пт","Сб","Вс"].map(x=>`<b>${x}</b>`).join("")+"<span></span>".repeat(first);
+ if(S.step==2&&(S.loading||S.busyError))h+=S.loading?`<h3>2. Выберите дату</h3><p>Загружаем свободное время…</p>`:`<h3>2. Выберите дату</h3><div class="err" role="alert">Не удалось загрузить свободное время. Повторите попытку или свяжитесь с мастером.</div><button class="btn ghost" data-retry="1">Повторить</button>`;
+ else if(S.step==2){const y=S.month.getFullYear(),mo=S.month.getMonth(),first=(new Date(y,mo,1).getDay()+6)%7,n=new Date(y,mo+1,0).getDate(),today=new Date();today.setHours(0,0,0,0);const max=new Date(today);max.setDate(max.getDate()+C.booking.daysAhead);
+  h+=`<h3>2. Выберите дату</h3>${S.error?`<div class="err" role="alert">${S.error}</div>`:""}<div class="mh" style="margin-top:14px"><button data-mv="-1" aria-label="Назад">‹</button><b>${S.month.toLocaleDateString("ru-RU",{month:"long",year:"numeric"})}</b><button data-mv="1" aria-label="Вперёд">›</button></div><div class="cal">`+["Пн","Вт","Ср","Чт","Пт","Сб","Вс"].map(x=>`<b>${x}</b>`).join("")+"<span></span>".repeat(first);
   for(let d=1;d<=n;d++){const dt=new Date(y,mo,d),ok=dt>=today&&dt<=max&&slots(dt,S.svc).length>0;h+=`<button ${ok?"":"disabled"} data-d="${iso(dt)}" class="${S.date==iso(dt)?"sel":""}">${d}</button>`}
   h+=`</div>`;
   if(S.date){const dt=new Date(S.date+"T00:00"),sl=slots(dt,S.svc);h+=`<h3 style="margin-top:20px;font-size:1.2rem">Свободное время</h3><div class="slots">`+(sl.length?sl.map(t=>`<button data-t="${t}" class="${S.time===t?"sel":""}">${hm(t)}</button>`).join(""):"Нет свободных слотов")+`</div>`}}
  if(S.step==3)h+=`<h3>3. Ваши данные</h3><label for="fn">Имя *</label><input id="fn" autocomplete="name" value="${esc(S.name)}"><div class="err" id="e1"></div><label for="fp">Телефон *</label><input id="fp" type="tel" inputmode="tel" autocomplete="tel" value="${esc(S.phone)}"><div class="err" id="e2"></div><label for="fe">Email (необязательно)</label><input id="fe" type="email" autocomplete="email" value="${esc(S.email)}"><div class="err" id="e3"></div><label for="fc2">Комментарий (необязательно)</label><textarea id="fc2" rows="3">${esc(S.comment)}</textarea>`;
- if(S.step==4)h+=`<h3>4. Проверьте детали</h3><dl style="margin-top:14px"><dt>Услуга</dt><dd>${esc(S.svc.name)}</dd><dt>Дата</dt><dd>${new Date(S.date+"T00:00").toLocaleDateString("ru-RU",{weekday:"long",day:"numeric",month:"long"})}</dd><dt>Время</dt><dd>${hm(S.time)}–${hm(S.time+S.svc.min)} (${S.svc.min} мин)</dd><dt>Стоимость</dt><dd>${money(S.svc)}</dd><dt>Имя</dt><dd>${esc(S.name)}</dd><dt>Телефон</dt><dd>${esc(S.phone)}</dd></dl>`+(C.booking.endpoint?"":`<div class="note">⚠ Сервер записи пока не подключён (демо). Заявка не будет сохранена, пока не настроен endpoint — см. инструкцию.</div>`)+(S.error?`<div class="err" role="alert">${S.error}</div>`:"");
+ if(S.step==4)h+=`<h3>4. Проверьте детали</h3><dl style="margin-top:14px"><dt>Услуга</dt><dd>${esc(S.svc.name)}</dd><dt>Дата</dt><dd>${new Date(S.date+"T00:00").toLocaleDateString("ru-RU",{weekday:"long",day:"numeric",month:"long"})}</dd><dt>Время</dt><dd>${hm(S.time)}–${hm(S.time+S.svc.min)} (${S.svc.min} мин)</dd><dt>Стоимость</dt><dd>${money(S.svc)}</dd><dt>Имя</dt><dd>${esc(S.name)}</dd><dt>Телефон</dt><dd>${esc(S.phone)}</dd></dl>`+(DB?"":`<div class="note">⚠ Сервер записи пока не подключён (демо). Заявка не будет сохранена, пока не подключена база данных.</div>`)+(S.error?`<div class="err" role="alert">${S.error}</div>`:"");
  const can=S.step==1?!!S.svc:S.step==2?S.time!=null:true;
  h+=`<div class="nav2">${S.step>1?`<button class="btn ghost" data-nav="-1">Назад</button>`:"<span></span>"}<button class="btn" data-nav="1" ${can&&!S.busy?"":"disabled"}>${S.step==4?(S.busy?"Отправка…":"Подтвердить запись"):"Далее"}</button></div>`;
  bk.innerHTML=h}
 bk.onclick=async e=>{const t=e.target.closest("button");if(!t)return;
- if(t.dataset.s){S.svc=C.services.find(s=>s.id==t.dataset.s);S.date=S.time=null}
+ if(t.dataset.retry){return refreshBusy()}
+ else if(t.dataset.s){S.svc=C.services.find(s=>s.id==t.dataset.s);S.date=S.time=null}
  else if(t.dataset.mv){S.month.setMonth(S.month.getMonth()+ +t.dataset.mv)}
  else if(t.dataset.d){S.date=t.dataset.d;S.time=null}
  else if(t.dataset.t){S.time=+t.dataset.t}
  else if(t.dataset.nav){const dir=+t.dataset.nav;
   if(S.step==3&&dir>0&&!saveForm())return;
   if(S.step==4&&dir>0){return submit()}
-  S.step+=dir;S.error=""}
+  S.step+=dir;S.error="";if(S.step==2&&dir>0){return refreshBusy()}}
  else return;render()};
 function saveForm(){S.name=$("#fn").value.trim();S.phone=$("#fp").value.trim();S.email=$("#fe").value.trim();S.comment=$("#fc2").value.trim();let ok=true;
  $("#e1").textContent=S.name.length<2?(ok=false,"Введите имя"):"";
  $("#e2").textContent=S.phone.replace(/\D/g,"").length<10?(ok=false,"Введите корректный номер телефона"):"";
  $("#e3").textContent=S.email&&!/^\S+@\S+\.\S+$/.test(S.email)?(ok=false,"Проверьте email"):"";return ok}
 async function submit(){S.error="";
- if(!C.booking.endpoint){S.error="Не удалось сохранить запись: сервер не подключён. Свяжитесь с мастером по телефону или в мессенджере.";return render()}
+ if(!DB){S.error="Не удалось сохранить запись: сервер не подключён. Свяжитесь с мастером по телефону или в мессенджере.";return render()}
  S.busy=true;render();
- try{const r=await fetch(C.booking.endpoint,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({service:S.svc.id,date:S.date,start:hm(S.time),name:S.name,phone:S.phone,email:S.email,comment:S.comment})});
-  if(r.status==409){S.busy=false;S.step=2;S.time=null;S.error="";render();alert("Это время только что заняли. Выберите другое.");return}
-  if(!r.ok)throw 0;
-  S.done=`<h3>Заявка принята ✓</h3><p>Мы ждём вас ${S.date} в ${hm(S.time)}. Подтверждение придёт на ${esc(S.phone)}.</p>`}
+ try{const r=await rpc("book_slot",{p_service:S.svc.id,p_date:S.date,p_start:hm(S.time),p_name:S.name,p_phone:S.phone,p_email:S.email||null,p_comment:S.comment||null});
+  if(r&&r.error=="slot_taken"){S.busy=false;S.step=2;S.time=null;S.error="Это время только что заняли. Выберите другое.";await refreshBusy();return}
+  if(!r||r.ok!==true){S.error=ERR[r&&r.error]||"Не удалось сохранить запись. Попробуйте ещё раз или свяжитесь с мастером.";S.busy=false;return render()}
+  S.done=`<h3>Заявка принята ✓</h3><p>Мы ждём вас ${S.date} в ${hm(S.time)}. Если планы изменятся, пожалуйста, предупредите мастера заранее.</p>`}
  catch(_){S.error="Не удалось отправить заявку. Проверьте соединение и попробуйте ещё раз."}
  S.busy=false;render()}
-document.addEventListener("click",e=>{const b=e.target.closest("[data-svc]");if(!b)return;S.svc=C.services.find(s=>s.id==b.dataset.svc);S.step=2;S.date=S.time=null;S.done=null;render();$("#booking").scrollIntoView()});
+document.addEventListener("click",e=>{const b=e.target.closest("[data-svc]");if(!b)return;S.svc=C.services.find(s=>s.id==b.dataset.svc);S.step=2;S.date=S.time=null;S.done=null;refreshBusy();$("#booking").scrollIntoView()});
 render();
 const io=new IntersectionObserver(es=>es.forEach(x=>{if(x.isIntersecting){x.target.classList.add("in");io.unobserve(x.target)}}),{threshold:.1});
 document.querySelectorAll(".rv").forEach(el=>io.observe(el));
