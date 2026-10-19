@@ -140,12 +140,12 @@ const CONFIG={
   4:{from:"09:00",to:"19:00",breaks:[]},5:{from:"09:00",to:"19:00",breaks:[]},6:{from:"09:00",to:"19:00",breaks:[]},0:null},
  exceptions:{ /* "2026-12-31":null (выходной) или {from:"10:00",to:"14:00",breaks:[]} */ },
  vacations:[ /* ["2026-12-25","2027-01-08"] */ ],
- booking:{step:30,daysAhead:60,supabaseUrl:"",anonKey:"" /* Supabase: Project URL и anon public key (публичный ключ) */}
+ booking:{step:30,daysAhead:60,supabaseUrl:"https://wrcfrqnisghmxdgfsahi.supabase.co",anonKey:"sb_publishable_beJ24hJVSy0EnShqinbYfg_n9zsLlFS" /* Supabase: Project URL и anon public key (публичный ключ) */}
 };
 /* Занятые интервалы. В рабочем режиме приходят с сервера (без персональных данных). Демо-значения: */
 let BUSY=[];
 const DB=!!(C.booking.supabaseUrl&&C.booking.anonKey);
-async function rpc(name,args){const r=await fetch(C.booking.supabaseUrl.replace(/\/$/,"")+"/rest/v1/rpc/"+name,{method:"POST",headers:{"Content-Type":"application/json",apikey:C.booking.anonKey,Authorization:"Bearer "+C.booking.anonKey},body:JSON.stringify(args)});if(!r.ok)throw new Error("http "+r.status);return r.json()}
+async function rpc(name,args){const r=await fetch(C.booking.supabaseUrl.replace(/\/$/,"")+"/rest/v1/rpc/"+name,{method:"POST",headers:Object.assign({"Content-Type":"application/json",apikey:C.booking.anonKey},C.booking.anonKey.startsWith("eyJ")?{Authorization:"Bearer "+C.booking.anonKey}:{}),body:JSON.stringify(args)});if(!r.ok)throw new Error("http "+r.status);return r.json()}
 /* ================================================================================ */
 const C=CONFIG,$=s=>document.querySelector(s),DN=["Воскресенье","Понедельник","Вторник","Среда","Четверг","Пятница","Суббота"];
 const m=t=>{const[a,b]=t.split(":");return+a*60+ +b},hm=n=>String(n/60|0).padStart(2,"0")+":"+String(n%60).padStart(2,"0");
